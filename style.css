@@ -1,0 +1,34 @@
+*{
+	box-sizing: border-box;
+}
+
+#main{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	-ms-align-items: center;
+	align-items: center;
+	justify-content: center;
+}
+
+#calculator{
+	width: 300px;
+}
+
+#output{
+	padding: 10px;
+	border: 3px solid gray;
+}
+
+#buttons{
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-auto-rows: minmax(30px, auto);
+	grid-gap: 3px;
+}
+
+hr{
+	margin: 0;
+}
