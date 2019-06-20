@@ -4,30 +4,32 @@
 	<meta charset="UTF-8">
 	<title>Calculator</title>
 	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="bootstrap.min.css">
 </head>
 <body>
-	<main id="main">
-		<div id="calculator">
-			<div id="output">0</div>
-			<div id="buttons">
-				<button class="btn number">1</button>
-				<button class="btn number">2</button>
-				<button class="btn number">3</button>
-				<button class="btn number">4</button>
-				<button class="btn number">5</button>
-				<button class="btn number">6</button>
-				<button class="btn number">7</button>
-				<button class="btn number">8</button>
-				<button class="btn number">9</button>
-				<button class="btn number">0</button>
-				<button class="btn plus">+</button>
-				<button class="btn minus">-</button>
-				<button class="btn equal">=</button>
-				<button class="btn pow">*</button>
-				<button class="btn del">/</button>
-				<button class="btn dot">.</button>
-				<button class="btn backspace">Backspace</button>
-				<button class="btn delAll">Delete all</button>
+	<main id="main" class="">
+		<h1 class="text-center display-4 mb-3">JavaScript Calculator</h1>
+		<div id="calculator" class="container">
+			<div class="row"><div id="output" class="col alert alert-dark p-3 text-right">0</div></div>
+			<div id="buttons" class="row">
+				<button type="button" class="btn btn-secondary number">1</button>
+				<button type="button" class="btn btn-secondary number">2</button>
+				<button type="button" class="btn btn-secondary number">3</button>
+				<button type="button" class="btn btn-secondary number">4</button>
+				<button type="button" class="btn btn-secondary number">5</button>
+				<button type="button" class="btn btn-secondary number">6</button>
+				<button type="button" class="btn btn-secondary number">7</button>
+				<button type="button" class="btn btn-secondary number">8</button>
+				<button type="button" class="btn btn-secondary number">9</button>
+				<button type="button" class="btn btn-secondary number">0</button>
+				<button type="button" class="btn btn-secondary plus">+</button>
+				<button type="button" class="btn btn-secondary minus">-</button>
+				<button type="button" class="btn btn-secondary pow">*</button>
+				<button type="button" class="btn btn-secondary del">/</button>
+				<button type="button" class="btn btn-secondary dot">.</button>
+				<button type="button" class="btn btn btn-success equal">=</button>
+				<button type="button" class="btn btn-warning backspace">Backspace</button>
+				<button type="button" class="btn btn-danger delAll">Delete all</button>
 			</div>
 		</div>
 	</main>
