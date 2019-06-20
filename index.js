@@ -5,11 +5,56 @@ const calc = document.getElementById('calculator'),
 var storage = '0',
 	operators = ['+', '-', '*', '/'];
 
+
+// Обновление вывода калькулятора
+function updateResult(){
+	output.innerHTML = storage;
+};
+
+
+// Парсинг введённых данных, возвращает объект со свойствами: 
+// nums(массив введённых чисел)
+// operators(массив введённых операторов)
+function parseStorage(){
+	var nums = [],
+		currentOperators = [],
+		lastOperatorIndex,
+		resultObject = {};
+
+	for(var i = 0; i < storage.length; i++){
+		if(operators.includes(storage[i])){
+
+			if(i === 0) continue;
+
+			currentOperators.push(storage[i]);
+
+			nums.push(storage.slice(lastOperatorIndex || 0, i));
+
+			lastOperatorIndex = i + 1;
+		}
+		else if(i === storage.length - 1){
+
+			nums.push(storage.slice(lastOperatorIndex || 0));
+
+		}
+	}
+
+	resultObject.nums = nums;
+	resultObject.operators = currentOperators;
+
+	return resultObject;
+}
+
+
+// Вычисление результата ввода. Принимает:
+// nums(массив введённых чисел)
+// operators(массив введённых операторов)
+// Возвращает результат вычислений, тип string;
 function calculate(nums, operators){
 
-	var n1 = nums[0],
-		n2 = nums[1],
-		operator = operators[0],
+	var n1,
+		n2,
+		operator,
 		result,
 		i = 0;
 
@@ -21,7 +66,15 @@ function calculate(nums, operators){
 			n1 = result;
 		}
 		n2 = nums[i + 1];
-		operator = operators[i]
+
+		if(!operators.length){
+			break;
+		}		
+		else{
+			operator = operators[i];
+		}
+
+		console.log(n1, operator, n2);
 
 		switch(operator){
 		case '+':
@@ -36,23 +89,31 @@ function calculate(nums, operators){
 		case '*':
 			result = (+n1 * +n2);
 			break;
-		default:
-			throw new Error('Something went wrong..');
 		}
 
 		i++;
 	}
 
-	return result || 'Error';
+	try{
+		return result.toString();
+	}
+	catch(e){
+		console.error('You have entered an unvaliable expression');
+		return storage;
+	}
 
 }
 
+
+// Обработка кликов на кнопки калькулятора
 function handler(e){
 	var target = e.target;
 
 	if(target.matches('button')){
 		if(target.matches('.number')){
 
+			// Если в памяти один символ, равный нулю - заменить его введённым числом. 
+			// Иначе - конкатенировать ввод и память
 			if(storage.length === 1 && storage[0] === '0'){
 				storage = target.innerHTML;
 			}
@@ -60,7 +121,7 @@ function handler(e){
 				storage += target.innerHTML;
 			}
 
-			output.innerHTML = storage;
+			updateResult();
 
 		}
 		else if(
@@ -70,61 +131,49 @@ function handler(e){
 			target.matches('.del')
 			){
 
+			// Если прошлый символ не является оператором - конкатенировать ввод и память.
 			if(!operators.includes(storage[storage.length - 1])){
 				storage += target.innerHTML;
 			}
 
-			output.innerHTML = storage;
+			updateResult();
 
 		}
 		else if(target.matches('.dot')){
 
-			if(!~storage.indexOf('.')){
+			// Если в последнем в памяти числе нет символа '.' - конкатенировать ввод и память.
+			var lastNum = parseStorage().nums[parseStorage().nums.length - 1];
+
+			if(!lastNum.includes('.')){
 				storage += target.innerHTML;
 			}
 
-			output.innerHTML = storage;
+			updateResult();
 
 		}
 		else if(target.matches('.equal')){
 
-			var nums = [],
-				currentOperators = [],
-				lastOperatorIndex = 0;
+			var nums = parseStorage().nums,
+				currentOperators = parseStorage().operators;
 
-			for(var i = 0; i < storage.length; i++){
-				if(operators.includes(storage[i])){
+			storage = calculate(nums, currentOperators);
 
-					if(i === 0) continue;
-
-					currentOperators.push(storage[i]);
-
-					nums.push(storage.slice(lastOperatorIndex, i));
-
-					lastOperatorIndex = i + 1;
-				}
-				else if(i === storage.length - 1){
-
-					nums.push(storage[i]);
-
-				}
-			}
-
-			storage = calculate(nums, currentOperators).toString();
-
-			output.innerHTML = storage;
+			updateResult();
 
 		}
 		else if(target.matches('.backspace')){
 
 			storage = storage.slice(0, -1);
 			if(!storage.length) storage = '0';
-			output.innerHTML = storage;
+
+			updateResult();
 
 		}
 		else{
 			storage = '0';
-			output.innerHTML = storage;
+
+			updateResult();
+
 		}
 	}
 }
