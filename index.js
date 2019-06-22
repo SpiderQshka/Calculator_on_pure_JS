@@ -96,7 +96,7 @@ function handler(e){
 
 			// Если в памяти один символ, равный нулю, или бесконечность - заменить введённым числом. 
 			// Иначе - конкатенировать ввод и память
-			if((storage.length === 1 && storage[0] === '0') || storage === 'Infinity'){
+			if(storage.length === 1 && storage[0] === '0'{
 				storage = target.innerHTML;
 			}
 			else{
