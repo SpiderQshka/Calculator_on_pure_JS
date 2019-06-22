@@ -16,33 +16,10 @@ function updateResult(){
 // nums(массив введённых чисел)
 // operators(массив введённых операторов)
 function parseStorage(){
-	var nums = [],
-		currentOperators = [],
-		lastOperatorIndex,
-		resultObject = {};
-
-	for(var i = 0; i < storage.length; i++){
-		if(operators.includes(storage[i])){
-
-			if(i === 0) continue;
-
-			currentOperators.push(storage[i]);
-
-			nums.push(storage.slice(lastOperatorIndex || 0, i));
-
-			lastOperatorIndex = i + 1;
-		}
-		else if(i === storage.length - 1){
-
-			nums.push(storage.slice(lastOperatorIndex || 0));
-
-		}
-	}
-
-	resultObject.nums = nums;
-	resultObject.operators = currentOperators;
-
-	return resultObject;
+	return {
+		nums: storage.match(/\d+(\.\d*)?/g),
+		operators: storage.match(/[\+\-\*\/]/g)
+	};
 }
 
 
@@ -94,8 +71,8 @@ function calculate(nums, operators){
 		i++;
 	}
 
-	if(isNaN(result)){
-		console.error('Result is NaN');
+	if(!isFinite(result)){
+		console.error('Result is Infinity or NaN');
 		return storage;
 	}
 
