@@ -94,6 +94,11 @@ function calculate(nums, operators){
 		i++;
 	}
 
+	if(isNaN(result)){
+		console.error('Result is NaN');
+		return storage;
+	}
+
 	try{
 		return result.toString();
 	}
@@ -112,9 +117,9 @@ function handler(e){
 	if(target.matches('button')){
 		if(target.matches('.number')){
 
-			// Если в памяти один символ, равный нулю - заменить его введённым числом. 
+			// Если в памяти один символ, равный нулю, или бесконечность - заменить введённым числом. 
 			// Иначе - конкатенировать ввод и память
-			if(storage.length === 1 && storage[0] === '0'){
+			if((storage.length === 1 && storage[0] === '0') || storage === 'Infinity'){
 				storage = target.innerHTML;
 			}
 			else{
